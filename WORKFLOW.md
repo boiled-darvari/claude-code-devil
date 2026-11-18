@@ -88,8 +88,11 @@ evades every layer until an anchor test pins coverage.
 
 ## The critic contract (both directions)
 
-- The critic verifies against the actual repo, cites file:line, numbers
-  objections strongest-first, ends `VERDICT: BLOCK | FIX-FIRST | PROCEED`.
+- The critic verifies against the actual repo, numbers objections
+  strongest-first — one independent defect per number, each a one-line claim
+  plus an `Evidence:` line (file:line or a diff hunk) and a `Why:` line, with
+  no headings, tables or emphasis — and ends with an undecorated
+  `VERDICT: BLOCK | FIX-FIRST | PROCEED` line.
 - Every run closes with four machine lines — `DEVIL_RUN:` (which mode, base,
   criticality, effort and the model the script chose for it), `DEVIL_QUOTA:`
   (what it left in the tank), `DEVIL_SESSION:` (the uuid a reply would need),

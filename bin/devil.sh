@@ -858,9 +858,13 @@ Ground rules:
 - Investigate the repository yourself (read files, run read-only git
   commands). Do NOT trust the artifact's claims — verify against actual code.
 - Adversarial only: no praise, no balance, no restating what is fine.
-- Numbered objections, strongest first. Every objection cites concrete
-  evidence — file path plus line (file:line) or a specific diff hunk — and
-  one or two lines on why it is wrong or dangerous here.
+- Numbered objections, strongest first, one number per independent defect
+  (never bundle two, never split one). Each is exactly:
+    N. <the claim, one line>
+       Evidence: <file path plus line (file:line) or a specific diff hunk>
+       Why: <one or two lines on why it is wrong or dangerous here>
+- No headings, tables, or emphasis (backticks and fenced hunks are fine).
+  The `UNVERIFIED:` and `VERDICT:` lines start at column 0, undecorated.
 - Attack, don't fix: you may state what a fix must achieve, never write it.
 - You are the LAST gate. The Claude-side reviewers have already run; this
   work commits or dispatches on the strength of your answer and nothing
