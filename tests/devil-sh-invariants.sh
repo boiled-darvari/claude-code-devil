@@ -52,6 +52,10 @@
 #     one stamped EXPIRED, a forged value discarded per window
 #   - the launch texts (the devil and angel commands, the agents) document --detach and
 #     DEVIL_FAILED and never recommend a Bash timeout or run_in_background
+#   - OUTPUT CONTRACT: every mode's prompt, the reply's included (it carries
+#     no preamble), asks for one defect per number as claim / Evidence / Why,
+#     rules out headings, tables and emphasis, asks for the UNVERIFIED: line,
+#     and shows the VERDICT template at column 0 with no indented copy
 #
 # Hermetic by construction: HOME is a scratch dir, no CODEX_HOME / DEVIL_* /
 # BASH_ENV is inherited, and every devil.sh process runs with a PATH made of
@@ -351,6 +355,27 @@ else
   grep -q "embedded newline" "$tmp/e9" && ok "scope: newline-bearing path refused" || bad "scope: newline not rejected"
 fi
 dry diff HEAD -- >/dev/null 2>&1 && bad "scope: bare -- accepted" || ok "scope: bare -- refused"
+
+# --- output contract: the objection shape is in EVERY mode's prompt -----------------
+# The caller answers by number (CONCEDE/REBUT — #n) and reads the last two
+# lines, so the shape is asked for in every mode — the reply too, whose prompt
+# carries no preamble — and the verdict template is never shown indented while
+# the prompt asks for column 0.
+for r in "plan $brief" "diff" "wrapup $sum" "reply $UUID $rebut"; do
+  m=${r%% *}
+  # shellcheck disable=SC2086  # the case words are split on purpose
+  out=$(dry $r 2>/dev/null </dev/null)
+  flat=$(printf '%s' "$out" | tr '\n' ' ' | sed 's/  */ /g')
+  has "$flat" "Evidence:" && has "$flat" "Why:" \
+    && has_re "$flat" 'one (number per independent defect|independent defect per number)' \
+    && ok "contract [$m]: one defect per number, as claim / Evidence / Why" || bad "contract [$m]: objection shape missing from the prompt"
+  printf '%s' "$flat" | grep -qiF "no headings, tables, or emphasis" \
+    && ok "contract [$m]: headings, tables and emphasis ruled out" || bad "contract [$m]: decoration rule missing from the prompt"
+  has "$flat" "\`UNVERIFIED:\` line" \
+    && ok "contract [$m]: the UNVERIFIED: line is asked for" || bad "contract [$m]: UNVERIFIED: line missing from the prompt"
+  has_re "$out" '^VERDICT: BLOCK \| FIX-FIRST \| PROCEED' && ! has_re "$out" '^[[:space:]]+VERDICT:' \
+    && ok "contract [$m]: the verdict template sits at column 0, never indented" || bad "contract [$m]: verdict template indented or missing"
+done
 
 
 # --- clean no-op when codex is absent (REAL run, codex-free PATH) -----------------------

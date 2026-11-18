@@ -864,7 +864,6 @@ Ground rules:
        Evidence: <file path plus line (file:line) or a specific diff hunk>
        Why: <one or two lines on why it is wrong or dangerous here>
 - No headings, tables, or emphasis (backticks and fenced hunks are fine).
-  The `UNVERIFIED:` and `VERDICT:` lines start at column 0, undecorated.
 - Attack, don't fix: you may state what a fix must achieve, never write it.
 - You are the LAST gate. The Claude-side reviewers have already run; this
   work commits or dispatches on the strength of your answer and nothing
@@ -877,10 +876,12 @@ Ground rules:
 - Immediately before the verdict, print one `UNVERIFIED:` line listing what
   you could not check and why (files not read, behavior not derivable from
   the repo). An empty list is itself a claim you are making.
-- End with exactly one final line:
-  VERDICT: BLOCK | FIX-FIRST | PROCEED — <one-line justification>
-  (BLOCK = approach fundamentally wrong; FIX-FIRST = named issues must be
-  fixed before continuing; PROCEED = nothing material found.)
+
+End with exactly one final line. It and the `UNVERIFIED:` line start at
+column 0, undecorated:
+VERDICT: BLOCK | FIX-FIRST | PROCEED — <one-line justification>
+(BLOCK = approach fundamentally wrong; FIX-FIRST = named issues must be
+fixed before continuing; PROCEED = nothing material found.)
 EOF
 )
 
@@ -1067,7 +1068,11 @@ evidence). Hold the line:
 - drop an objection ONLY if genuinely refuted; otherwise restate it sharpened
 - raise new objections if the reply exposes new problems
 - flag any of your objections the reply silently ignored
-End again with exactly one final line:
+Keep the output shape of a first answer: numbered objections, one
+independent defect per number, each a one-line claim plus `Evidence:` and
+`Why:` lines; no headings, tables, or emphasis; one `UNVERIFIED:` line
+immediately before the verdict.
+End again with exactly one final line, at column 0 and undecorated:
 VERDICT: BLOCK | FIX-FIRST | PROCEED — <one-line justification>
 EOF
     )
