@@ -1,0 +1,23 @@
+# .claude/devil/critical-globs.conf — the project's critical-path scope.
+#
+# One glob per line, matched (shell `case` pattern) against repo-relative
+# changed-file paths. Blank lines and lines starting with # are ignored.
+# This file is DATA — it is read and matched, never executed.
+#
+# devil.sh reads it: a diff or wrapup touching a matching path takes the
+# strong model lane, escalates codex's reasoning effort and gets
+# critical-invariants.md injected into the prompt. Anything else you point at
+# this file (an authoring-time hook, a CI check) agrees with the devil by
+# construction.
+#
+# Match whole modules generously — harmless extra hits are cheaper than a
+# missed critical file. Agreement between consumers is guaranteed; COVERAGE is
+# not: pin it with an anchor test of your own ("every file importing <critical
+# helper> must be matched by these globs").
+#
+# Until this file holds at least one active line, critical-path detection is
+# off (devil.sh says so on every diff and wrapup run).
+# Examples — uncomment and edit:
+#*src/auth/*
+#*src/billing/*
+#*db/migrations/*

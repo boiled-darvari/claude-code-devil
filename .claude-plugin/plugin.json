@@ -1,0 +1,9 @@
+{
+  "name": "devil",
+  "version": "0.1.0",
+  "description": "Adversarial review for Claude Code: a read-only codex devil's advocate, a strongest-model advisor, a supervised implementer and a critical-path auditor",
+  "author": { "name": "boiled-darvari" },
+  "repository": "https://github.com/boiled-darvari/claude-code-devil",
+  "license": "Unlicense",
+  "keywords": ["review", "codex", "critic", "planning", "delegation"]
+}

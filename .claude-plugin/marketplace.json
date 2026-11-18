@@ -1,0 +1,5 @@
+{
+  "name": "claude-code-devil",
+  "owner": { "name": "boiled-darvari" },
+  "plugins": [{ "name": "devil", "source": "./" }]
+}
